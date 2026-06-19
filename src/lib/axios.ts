@@ -28,8 +28,13 @@ api.interceptors.response.use(
     if (status === 401) {
       globalHooks.globalRouter.navigate?.('/auth/login')
     }
+    // The backend reports errors in a `detail` field (FastAPI convention);
+    // fall back to `message` and the axios error for non-API failures.
     const message =
-      error?.response?.data?.message ?? error?.message ?? 'Something went wrong'
+      error?.response?.data?.detail ??
+      error?.response?.data?.message ??
+      error?.message ??
+      'Something went wrong'
     globalHooks.globalNotify?.(message)
     return Promise.reject(error)
   },

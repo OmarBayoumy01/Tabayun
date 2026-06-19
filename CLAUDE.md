@@ -1,19 +1,19 @@
 # CLAUDE.md
 
-LAMS — a React 19 + TypeScript + Vite single-page app built on a **feature-module
+Tabayun — a React 19 + TypeScript + Vite single-page app built on a **feature-module
 architecture** with a **server-validated auth gate**. Keep all new work consistent with
 the module pattern described below.
 
 ## Commands
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start the Vite dev server |
-| `npm run build` | Type-check then build (`tsc -b && vite build`) |
-| `npm run lint` | ESLint (flat config) |
-| `npm run format` | Prettier write |
-| `npm run format:check` | Prettier check |
-| `npm run preview` | Preview the production build |
+| Command                | Purpose                                        |
+| ---------------------- | ---------------------------------------------- |
+| `npm run dev`          | Start the Vite dev server                      |
+| `npm run build`        | Type-check then build (`tsc -b && vite build`) |
+| `npm run lint`         | ESLint (flat config)                           |
+| `npm run format`       | Prettier write                                 |
+| `npm run format:check` | Prettier check                                 |
+| `npm run preview`      | Preview the production build                   |
 
 ## Stack
 
@@ -30,7 +30,8 @@ Each feature lives in `src/modules/<feature>/` and owns its own:
 
 - `routes.tsx` — exports a `RouteObject` (e.g. `authRoute`, `appRoute`); pages are wired in via `lazyPage()`
 - `store.ts` — Jotai atoms, suffixed `...Atom` (e.g. `userDataAtom`)
-- `apis/queries.ts` — React Query hooks (e.g. `useGetUser`), array query keys like `['auth', 'me']`
+- `apis/api.ts` — raw data-access functions (e.g. `getUser`, `analyzeMedia`); no React Query
+- `apis/queries.ts` — React Query hooks (e.g. `useGetUser`) wrapping the `api.ts` functions, plus array query keys like `['auth', 'me']`
 - `layout.tsx` — the module shell, rendering `<Outlet />`
 - `pages/index.tsx` — page components as **named** `XController` exports (e.g. `LoginController`, `DashboardController`), lazy-loaded
 - `types.ts` — module-local types
@@ -49,10 +50,20 @@ route object in `createAppRoutes()`.
 `useGetUser()`, shows `<PageLoader fullScreen />` until that resolves, hydrates `userDataAtom`,
 and redirects unauthenticated users to `/auth/login`.
 
-**Token presence alone is not trusted** — the user fetch is the source of truth. `getUser` is
-currently mocked against the localStorage token in `src/modules/auth/apis/queries.ts`; swap it
-for the real API when the backend is ready. Token helpers live in `src/lib/auth.ts`
-(`getToken` / `setToken` / `clearToken` / `isAuthenticated`).
+**Token presence alone is not trusted** — the user fetch is the source of truth. There is no
+`/auth/me` endpoint: the access token is a JWT whose claims carry the identity, so `getUser`
+(`src/modules/auth/apis/api.ts`) decodes the stored token (`sub` → email, `role`, `exp`) and
+throws on a missing/malformed/expired token, which `AppWrapper` treats as unauthenticated.
+Token helpers live in `src/lib/auth.ts` (`getToken` / `setToken` / `clearToken` /
+`isAuthenticated`).
+
+## Backend API
+
+Endpoints (base URL via `VITE_API_URL`, see `.env.example`): `POST /auth/login` →
+`{ access_token, token_type, role }`; `POST /detect/image` & `POST /detect/video` (multipart
+`file`) → a `DetectionResult` (`verdict: 'Fake' | 'Real'`, `confidence`, `models[]`, `method`);
+`POST /feedback` (**admin only**) → `{ success, detection_id }`; `GET /health`. Admin tokens
+additionally unlock `/feedback`; the admin-only `FeedbackControl` in the detector reflects this.
 
 ## Non-React bridge (axios ↔ router)
 
@@ -107,7 +118,24 @@ src/
 `StrictMode > ThemeProvider > QueryClientProvider > Suspense(PageLoader) > RouterProvider`,
 with `<Toaster />` mounted alongside the router.
 
+## Design Context
+
+Design strategy lives in **`PRODUCT.md`** (root); the visual system in **`DESIGN.md`**.
+Read them before any UI work.
+
+- **Register:** product (a task-driven tool — the UI serves the verdict).
+- **Users:** the general public checking whether a photo/video is real.
+- **Personality:** friendly, modern, reassuring — like a knowledgeable friend, never
+  hyped or alarmist.
+- **Principles:** the verdict is the product · calm over alarm · honest confidence ·
+  familiar, not clever · inclusive by default.
+- **A11y:** WCAG AA; verdicts must never rely on color alone (icon + text + color).
+- **Avoid:** hypey AI-startup chrome (gradients, glassmorphism), cold enterprise
+  density, and the generic shadcn-default look.
+
 <!-- SPECKIT START -->
+
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
+
 <!-- SPECKIT END -->

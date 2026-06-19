@@ -1,23 +1,22 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { useSetAtom } from 'jotai'
 import { useEffect } from 'react'
 import globalHooks from '@/services/global-router'
-import { userDataAtom } from '@/modules/auth/store'
-import { useGetUser } from '@/modules/auth/apis/queries'
+import { useHealth } from '@/modules/app/apis/queries'
 import { useNotify } from '@/hooks/notify'
 import { PageLoader } from '@/components/page-loader'
+import { useSetAtom } from 'jotai'
+import { userDataAtom } from '@/modules/auth/store'
 
-// Auth gate for the app shell. Validates the session by fetching the user
-// (the token rides along via the axios instance). Until that resolves we show
-// a full-screen loader; unauthenticated users are redirected to login.
+// App shell gate. Waits for the backend health check (GET /health) before
+// rendering the app: a full-screen loader while it resolves, and a redirect to
+// login if the backend is unreachable.
 const AppWrapper = () => {
-  const setUserData = useSetAtom(userDataAtom)
-
   const location = useLocation()
   const navigate = useNavigate()
   const { notify } = useNotify()
+  const setUserData = useSetAtom(userDataAtom)
 
-  const { data, isLoading, isError } = useGetUser()
+  const { isLoading, isError } = useHealth()
 
   // Keep the global bridge pointed at the live router + notifier so non-React
   // code (axios interceptors) can navigate and toast.
@@ -27,19 +26,15 @@ const AppWrapper = () => {
     globalHooks.globalNotify = notify.error
   }, [navigate, location, notify])
 
-  // Sync auth result: hydrate the user, or bounce unauthenticated visitors.
+  // Backend unreachable — bounce to login instead of rendering the app shell.
   useEffect(() => {
-    if (isLoading) return
-    if (isError || !data) {
-      if (!location.pathname.includes('/auth')) {
-        navigate('/auth/login', { replace: true })
-      }
-    } else {
-      setUserData(data)
+    if (isError && !location.pathname.includes('/auth')) {
+      setUserData(null)
+      navigate('/auth/login', { replace: true })
     }
-  }, [isError, isLoading, data, navigate])
+  }, [isError, navigate])
 
-  if (isLoading || isError || !data) return <PageLoader fullScreen />
+  if (isLoading || isError) return <PageLoader fullScreen />
 
   return <Outlet />
 }

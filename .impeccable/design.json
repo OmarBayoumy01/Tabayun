@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-19T00:00:00Z",
+  "title": "Design System: Tabayun",
+  "extensions": {
+    "colorMeta": {
+      "signal-violet": {
+        "role": "primary",
+        "displayName": "Signal Violet",
+        "canonical": "oklch(0.491 0.27 292.581)",
+        "tonalRamp": [
+          "oklch(0.20 0.10 292.6)",
+          "oklch(0.28 0.16 292.6)",
+          "oklch(0.36 0.21 292.6)",
+          "oklch(0.43 0.23 292.6)",
+          "oklch(0.49 0.27 292.6)",
+          "oklch(0.62 0.22 292.6)",
+          "oklch(0.76 0.14 292.6)",
+          "oklch(0.92 0.05 292.6)"
+        ]
+      },
+      "verified-green": {
+        "role": "secondary",
+        "displayName": "Verified Green",
+        "canonical": "oklch(0.696 0.149 162.5)",
+        "tonalRamp": [
+          "oklch(0.20 0.05 162.5)",
+          "oklch(0.30 0.08 162.5)",
+          "oklch(0.42 0.11 162.5)",
+          "oklch(0.52 0.13 162.5)",
+          "oklch(0.63 0.15 162.5)",
+          "oklch(0.70 0.15 162.5)",
+          "oklch(0.82 0.10 162.5)",
+          "oklch(0.93 0.04 162.5)"
+        ]
+      },
+      "alert-red": {
+        "role": "secondary",
+        "displayName": "Alert Red",
+        "canonical": "oklch(0.577 0.245 27.325)",
+        "tonalRamp": [
+          "oklch(0.22 0.08 27.3)",
+          "oklch(0.32 0.13 27.3)",
+          "oklch(0.43 0.18 27.3)",
+          "oklch(0.52 0.22 27.3)",
+          "oklch(0.58 0.245 27.3)",
+          "oklch(0.68 0.21 27.3)",
+          "oklch(0.80 0.13 27.3)",
+          "oklch(0.93 0.05 27.3)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.145 0 0)",
+        "tonalRamp": [
+          "oklch(0.145 0 0)",
+          "oklch(0.25 0 0)",
+          "oklch(0.37 0 0)",
+          "oklch(0.50 0 0)",
+          "oklch(0.556 0 0)",
+          "oklch(0.70 0 0)",
+          "oklch(0.85 0 0)",
+          "oklch(0.97 0 0)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page titles only (e.g. 'Deepfake & AI Detector')."
+      },
+      "title": { "displayName": "Title", "purpose": "Card titles." },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Descriptions and content; cap prose at 65-75ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Badges, verdict chips, timestamps, meta."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hover-lift",
+        "value": "0 8px 24px oklch(0.145 0 0 / 0.10)",
+        "purpose": "Applied to interactive cards (history scans) on hover/focus only; surfaces are flat at rest."
+      },
+      {
+        "name": "focus-ring",
+        "value": "0 0 0 3px oklch(0.491 0.27 292.581 / 0.3)",
+        "purpose": "Keyboard focus indicator on controls; always visible on :focus-visible."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Ease-out for state transitions; 150-250ms. Conveys state, never decoration."
+      },
+      {
+        "name": "reduced",
+        "value": "prefers-reduced-motion: reduce -> crossfade or instant",
+        "purpose": "Every animation must ship a reduced-motion alternative."
+      }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one loud action per view (Analyze, Sign in). Signal Violet fill, near-pill.",
+      "html": "<button class=\"ds-btn-primary\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 7V5a2 2 0 0 1 2-2h2\"/><path d=\"M17 3h2a2 2 0 0 1 2 2v2\"/><path d=\"M21 17v2a2 2 0 0 1-2 2h-2\"/><path d=\"M7 21H5a2 2 0 0 1-2-2v-2\"/><circle cx=\"11.5\" cy=\"11.5\" r=\"2.5\"/><path d=\"M13.27 13.27 16 16\"/></svg>Analyze</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:32px;padding:0 14px;border:none;border-radius:13px;background:oklch(0.491 0.27 292.581);color:oklch(0.969 0.016 293.756);font:500 14px/1 'Inter Variable',system-ui,sans-serif;cursor:pointer;transition:background .18s cubic-bezier(0.22,1,0.36,1),transform .18s cubic-bezier(0.22,1,0.36,1)}.ds-btn-primary:hover{background:oklch(0.491 0.27 292.581 / 0.8)}.ds-btn-primary:focus-visible{outline:none;box-shadow:0 0 0 3px oklch(0.491 0.27 292.581 / 0.3)}.ds-btn-primary:active{transform:translateY(1px)}"
+    },
+    {
+      "name": "Destructive Button",
+      "kind": "button",
+      "refersTo": "button-destructive",
+      "description": "Subtle by design (Quiet Alert Rule): red text on a 10% red tint, never a solid red fill.",
+      "html": "<button class=\"ds-btn-destructive\">Delete scan</button>",
+      "css": ".ds-btn-destructive{display:inline-flex;align-items:center;justify-content:center;height:32px;padding:0 14px;border:none;border-radius:13px;background:oklch(0.577 0.245 27.325 / 0.1);color:oklch(0.51 0.2 27.3);font:500 14px/1 'Inter Variable',system-ui,sans-serif;cursor:pointer;transition:background .18s cubic-bezier(0.22,1,0.36,1)}.ds-btn-destructive:hover{background:oklch(0.577 0.245 27.325 / 0.2)}.ds-btn-destructive:focus-visible{outline:none;box-shadow:0 0 0 3px oklch(0.577 0.245 27.325 / 0.25)}"
+    },
+    {
+      "name": "Verdict Badge — Authentic",
+      "kind": "chip",
+      "refersTo": "badge-secondary",
+      "description": "The authentic verdict: Verified Green, always with shield-check icon AND text label (never color alone).",
+      "html": "<span class=\"ds-verdict-ok\"><svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/><path d=\"m9 12 2 2 4-4\"/></svg>Authentic</span>",
+      "css": ".ds-verdict-ok{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:13px;background:oklch(0.696 0.149 162.5 / 0.14);color:oklch(0.46 0.12 162.5);font:500 12px/1 'Inter Variable',system-ui,sans-serif}"
+    },
+    {
+      "name": "Verdict Badge — Fake",
+      "kind": "chip",
+      "refersTo": "badge-destructive",
+      "description": "The AI/fake verdict: Alert Red tint, with shield-alert icon AND text label. Calm, never a panic banner.",
+      "html": "<span class=\"ds-verdict-bad\"><svg viewBox=\"0 0 24 24\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/><path d=\"M12 8v4\"/><path d=\"M12 16h.01\"/></svg>AI · Fake</span>",
+      "css": ".ds-verdict-bad{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:13px;background:oklch(0.577 0.245 27.325 / 0.12);color:oklch(0.51 0.2 27.3);font:500 12px/1 'Inter Variable',system-ui,sans-serif}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "card",
+      "description": "Standard field: Surface fill, 1px border, violet focus ring (border shift + ring, no glow).",
+      "html": "<input class=\"ds-input\" type=\"email\" placeholder=\"you@example.com\" />",
+      "css": ".ds-input{height:36px;padding:0 12px;border-radius:8px;border:1px solid oklch(0.922 0 0);background:oklch(1 0 0);color:oklch(0.145 0 0);font:400 14px/1 'Inter Variable',system-ui,sans-serif;transition:border-color .18s,box-shadow .18s}.ds-input::placeholder{color:oklch(0.556 0 0)}.ds-input:focus-visible{outline:none;border-color:oklch(0.491 0.27 292.581);box-shadow:0 0 0 3px oklch(0.491 0.27 292.581 / 0.3)}"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat container: bright Surface, 1px hairline border, generous rounding. No resting shadow.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-title\">Detection result</div><div class=\"ds-card-desc\">Whether the media is AI-generated or authentic.</div></div>",
+      "css": ".ds-card{border:1px solid oklch(0.922 0 0);border-radius:12px;background:oklch(1 0 0);padding:24px;color:oklch(0.145 0 0);max-width:320px}.ds-card-title{font:600 16px/1.3 'Inter Variable',system-ui,sans-serif;letter-spacing:-0.01em}.ds-card-desc{margin-top:6px;font:400 14px/1.5 'Inter Variable',system-ui,sans-serif;color:oklch(0.556 0 0)}"
+    },
+    {
+      "name": "Interactive History Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "A scan-history thumbnail card: flat at rest, lifts on hover (Flat-By-Default Rule), verdict-tinted border.",
+      "html": "<button class=\"ds-history\"><div class=\"ds-history-thumb\"></div><div class=\"ds-history-meta\">portrait.jpg<span>2h ago</span></div></button>",
+      "css": ".ds-history{display:block;width:176px;text-align:left;border:1px solid oklch(0.922 0 0);border-radius:12px;background:oklch(1 0 0);overflow:hidden;cursor:pointer;padding:0;transition:transform .18s cubic-bezier(0.22,1,0.36,1),box-shadow .18s,border-color .18s}.ds-history:hover{transform:translateY(-2px);box-shadow:0 8px 24px oklch(0.145 0 0 / 0.10);border-color:oklch(0.696 0.149 162.5 / 0.5)}.ds-history:focus-visible{outline:none;box-shadow:0 0 0 3px oklch(0.491 0.27 292.581 / 0.3)}.ds-history-thumb{aspect-ratio:16/9;background:oklch(0.97 0 0)}.ds-history-meta{display:flex;justify-content:space-between;gap:8px;padding:10px;font:500 12px/1 'Inter Variable',system-ui,sans-serif;color:oklch(0.145 0 0)}.ds-history-meta span{color:oklch(0.556 0 0);font-weight:400}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Trusted Second Opinion",
+    "overview": "Tabayun is the calm, knowledgeable friend you turn to when you're not sure a photo or video is real. The interface behaves like that friend: it listens (a generous upload), it thinks (an honest loading state), and it tells you straight (one clear verdict, in plain language, no theatrics). Everything serves delivering that verdict faster and making it more believable. The personality is friendly, modern, and reassuring; it refuses both the hypey-AI-product look and the cold enterprise console. Because the subject matter is inherently a little scary, the governing rule is calm over alarm.",
+    "keyCharacteristics": [
+      "Verdict-first: layout, color, and motion serve one legible answer.",
+      "Soft & friendly: generous rounding, flat surfaces, gentle hover lifts.",
+      "Quietly confident: one accent (Signal Violet), used only where it means something.",
+      "Honest, not loud: state colors are muted tints, not full-saturation shouts.",
+      "Inclusive by default: verdicts never rely on color alone; AA contrast throughout."
+    ],
+    "rules": [
+      {
+        "name": "The Verdict-Not-By-Color Rule",
+        "body": "A verdict is never communicated by color alone. Every verdict pairs color with an icon (shield-check / shield-alert) AND an explicit text label. Color-blind users and grayscale renders must read the result perfectly.",
+        "section": "colors"
+      },
+      {
+        "name": "The Quiet Alert Rule",
+        "body": "Alert Red appears as a 10-20% tint behind red text and small icons, never as a full-bleed red banner or panic panel. The tool informs; it does not frighten.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Voice Rule",
+        "body": "Signal Violet covers under 10% of any screen. Its scarcity is what makes the primary action obvious.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Inter only, differentiated by weight and size. No display or decorative fonts in UI labels, buttons, or data. Fixed rem scale, not fluid clamp.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Surfaces are flat with a 1px border at rest. Shadow and lift are earned by interaction (hover, focus), never applied decoratively to static panels.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do treat the verdict as the product — make the answer the most legible thing on the screen.",
+      "Do pair every verdict with an icon and a text label, so it reads in grayscale and for color-blind users.",
+      "Do keep Signal Violet to under 10% of a screen, reserved for the primary action, active state, and focus.",
+      "Do deliver 'fake' results calmly — Alert Red as a tint behind red text, with a steady explanatory sentence.",
+      "Do use Inter at one weight/size scale; let hierarchy come from weight and size, not new fonts.",
+      "Do keep surfaces flat with a 1px border at rest; reserve shadow/lift for hover and focus.",
+      "Do ensure body and muted text clear 4.5:1 against Surface; never drop body copy to light gray.",
+      "Do promote the hardcoded emerald authentic color to a real semantic token for consistency."
+    ],
+    "donts": [
+      "Don't use gradient text, glassmorphism, glowing orbs, or neon AI theater — this is not a hypey AI startup.",
+      "Don't build cold, gray-on-gray enterprise density or intimidating data walls.",
+      "Don't slip into the alarmist security/hacker register: no full-bleed red banners, no fear-driven dark cyber theming.",
+      "Don't ship the generic shadcn-default look — Signal Violet is an owned identity, not an untouched template accent.",
+      "Don't convey a verdict (or any critical state) by color alone.",
+      "Don't use border-left/border-right greater than 1px as a colored accent stripe.",
+      "Don't introduce a display/decorative font into UI labels, buttons, or data.",
+      "Don't animate decoratively; motion conveys state (150-250ms) and always has a prefers-reduced-motion alternative."
+    ]
+  }
+}
