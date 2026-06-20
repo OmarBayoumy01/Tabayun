@@ -1,73 +1,96 @@
-# React + TypeScript + Vite
+# Tabayun — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React 19 + TypeScript + Vite single-page app for the AI Image/Video Detector.
+This guide walks you through running the app on your machine from scratch.
 
-Currently, two official plugins are available:
+## Running the app locally — step by step
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 1. Install Node.js
 
-## React Compiler
+You need **Node.js 20.19+ or 22.12+** (Vite 8 requires it) and **npm** (bundled with Node).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Download the LTS installer from <https://nodejs.org> and run it.
+- Verify the install in a terminal:
 
-## Expanding the ESLint configuration
+  ```bash
+  node -v
+  npm -v
+  ```
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### 2. Get the code
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Clone the repository (or open the folder if you already have it) and move into it:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone <repository-url>
+cd Tabayun
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 3. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+From the project root, install everything listed in `package.json`:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
+
+This creates the `node_modules/` folder. Run it again any time dependencies change.
+
+### 4. Configure the environment
+
+The frontend talks to the backend through one environment variable. Copy the
+example file and fill in your backend URL:
+
+```bash
+# macOS / Linux / Git Bash
+cp .env.example .env
+
+# Windows PowerShell
+Copy-Item .env.example .env
+```
+
+Open `.env` and set `VITE_API_URL` to the address where **your backend** is
+running, for example:
+
+```env
+VITE_API_URL=http://localhost:8000
+```
+
+This base URL is where the app expects these endpoints to live:
+`POST /auth/login`, `POST /detect/image`, `POST /detect/video`,
+`POST /feedback` (admin only), and `GET /health`.
+
+> Note: Vite only reads env variables prefixed with `VITE_`. After changing
+> `.env`, restart the dev server (step 5).
+
+### 5. Start the local dev server
+
+```bash
+npm run dev
+```
+
+Vite prints a local URL (by default **http://localhost:5173**). Open it in your
+browser. The server has hot-reload — saved changes appear instantly.
+
+To stop the server, press `Ctrl + C` in the terminal.
+
+## Other useful commands
+
+| Command           | Purpose                                       |
+| ----------------- | --------------------------------------------- |
+| `npm run dev`     | Start the Vite dev server (local development) |
+| `npm run build`   | Type-check then build for production          |
+| `npm run preview` | Serve the production build locally to test it |
+| `npm run lint`    | Run ESLint                                    |
+| `npm run format`  | Format the code with Prettier                 |
+
+## Troubleshooting
+
+- **Requests fail / login does nothing:** make sure the backend is running and
+  `VITE_API_URL` in `.env` points to it, then restart `npm run dev`.
+- **CORS errors in the browser console:** the backend must allow requests from
+  the dev origin (e.g. `http://localhost:5173`).
+- **Port 5173 already in use:** run `npm run dev -- --port 3000` to pick another
+  port.
+- **`node`/`npm` not recognized:** Node.js isn't installed or your terminal
+  needs to be reopened after installing it.
