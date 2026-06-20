@@ -49,16 +49,28 @@ cp .env.example .env
 Copy-Item .env.example .env
 ```
 
-Open `.env` and set `VITE_API_URL` to the address where **your backend** is
-running, for example:
+Open `.env` and set `VITE_API_URL` to the address where your **FastAPI** backend
+is running. FastAPI (served via Uvicorn) listens on port **8000** by default, so
+copy this line into your `.env`:
 
 ```env
 VITE_API_URL=http://localhost:8000
 ```
 
+Or set it in one command without opening the file:
+
+```bash
+# macOS / Linux / Git Bash
+echo "VITE_API_URL=http://localhost:8000" >> .env
+
+# Windows PowerShell
+Add-Content .env "VITE_API_URL=http://localhost:8000"
+```
+
 This base URL is where the app expects these endpoints to live:
 `POST /auth/login`, `POST /detect/image`, `POST /detect/video`,
-`POST /feedback` (admin only), and `GET /health`.
+`POST /feedback` (admin only), and `GET /health`. You can confirm the API is up
+and browse all of them at FastAPI's interactive docs: `http://localhost:8000/docs`.
 
 > Note: Vite only reads env variables prefixed with `VITE_`. After changing
 > `.env`, restart the dev server (step 5).
@@ -88,8 +100,9 @@ To stop the server, press `Ctrl + C` in the terminal.
 
 - **Requests fail / login does nothing:** make sure the backend is running and
   `VITE_API_URL` in `.env` points to it, then restart `npm run dev`.
-- **CORS errors in the browser console:** the backend must allow requests from
-  the dev origin (e.g. `http://localhost:5173`).
+- **CORS errors in the browser console:** the FastAPI backend must allow the dev
+  origin (e.g. `http://localhost:5173`). Add it to `CORSMiddleware`
+  (`allow_origins`) in the backend's FastAPI app.
 - **Port 5173 already in use:** run `npm run dev -- --port 3000` to pick another
   port.
 - **`node`/`npm` not recognized:** Node.js isn't installed or your terminal
