@@ -117,9 +117,6 @@ export function DashboardController() {
         <Card className="flex flex-col">
           <CardHeader>
             <CardTitle>Upload media</CardTitle>
-            <CardDescription>
-              We never store your files — they're analysed and discarded.
-            </CardDescription>
           </CardHeader>
           <CardContent className="flex min-h-[20rem] flex-1 flex-col gap-4">
             <MediaDropzone
@@ -186,7 +183,7 @@ export function DashboardController() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Scan history</CardTitle>
+          <CardTitle>history</CardTitle>
           <CardDescription>
             Previously analysed files — click one to view its report.
           </CardDescription>

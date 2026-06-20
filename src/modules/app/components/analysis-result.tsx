@@ -7,7 +7,11 @@ import {
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 import { Skeleton } from '@/components/ui/skeleton'
-import type { DetectionMethod, DetectionResult, DetectionVerdict } from '../types'
+import type {
+  DetectionMethod,
+  DetectionResult,
+  DetectionVerdict,
+} from '../types'
 
 type VerdictMeta = {
   label: string
@@ -17,7 +21,7 @@ type VerdictMeta = {
   /** Disc styles for the large result icon. */
   disc: string
   headline: string
-  detail: string
+  detail?: string
 }
 
 const VERDICT_META: Record<DetectionVerdict, VerdictMeta> = {
@@ -27,7 +31,6 @@ const VERDICT_META: Record<DetectionVerdict, VerdictMeta> = {
     chip: 'bg-success/10 text-success',
     disc: 'bg-success/10 text-success',
     headline: 'Looks authentic',
-    detail: 'No signs of AI generation or manipulation were found.',
   },
   Fake: {
     label: 'AI · Fake',
@@ -144,7 +147,9 @@ export function AnalysisResultView({ result }: { result: DetectionResult }) {
         <Icon className="size-8" />
       </div>
       <div className="space-y-2">
-        <h3 className="text-lg font-semibold tracking-tight">{meta.headline}</h3>
+        <h3 className="text-lg font-semibold tracking-tight">
+          {meta.headline}
+        </h3>
         <div className="flex flex-wrap items-center justify-center gap-2">
           <VerdictBadge verdict={result.verdict} />
           <span className="text-sm font-medium text-muted-foreground">
@@ -153,22 +158,6 @@ export function AnalysisResultView({ result }: { result: DetectionResult }) {
         </div>
       </div>
       <p className="max-w-xs text-sm text-muted-foreground">{meta.detail}</p>
-
-      <Separator />
-
-      <div className="w-full space-y-3">
-        <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-          Model breakdown
-        </p>
-        <ul className="space-y-3">
-          {result.models.map((model) => (
-            <ModelRow key={model.label} {...model} />
-          ))}
-        </ul>
-        <p className="text-xs text-muted-foreground">
-          {METHOD_LABEL[result.method]}
-        </p>
-      </div>
     </div>
   )
 }
