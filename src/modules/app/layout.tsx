@@ -4,6 +4,7 @@ import { clearToken } from '@/lib/auth'
 import { queryClient } from '@/lib/queryClient'
 import { userDataAtom } from '@/modules/auth/store'
 import { userQueryKey } from '@/modules/auth/apis/queries'
+import { scanHistoryAtom, selectedResultAtom } from './store'
 import { Button } from '@/components/ui/button'
 import { BrandMark } from '@/components/brand-mark'
 import { ModeToggle } from '@/components/mode-toggle'
@@ -14,11 +15,16 @@ export default function AppLayout() {
   const navigate = useNavigate()
   const user = useAtomValue(userDataAtom)
   const setUserData = useSetAtom(userDataAtom)
+  const setScanHistory = useSetAtom(scanHistoryAtom)
+  const setSelectedResult = useSetAtom(selectedResultAtom)
   const { notify } = useNotify()
 
   const handleSignOut = () => {
     clearToken()
     setUserData(null)
+    // Clear the session-local detector state so a fresh sign-in starts empty.
+    setScanHistory([])
+    setSelectedResult(null)
     queryClient.invalidateQueries({ queryKey: userQueryKey })
     navigate('/auth/login', { replace: true })
     notify.success('Signed out successfully')

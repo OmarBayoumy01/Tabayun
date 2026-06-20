@@ -183,7 +183,7 @@ export function DashboardController() {
 
       <Card>
         <CardHeader>
-          <CardTitle>history</CardTitle>
+          <CardTitle>History</CardTitle>
           <CardDescription>
             Previously analysed files — click one to view its report.
           </CardDescription>
